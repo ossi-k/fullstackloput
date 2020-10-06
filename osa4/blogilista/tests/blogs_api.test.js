@@ -43,6 +43,28 @@ test('identification variable is named id', async () => {
     expect(response.body[1].id).toBeDefined()
 })
 
+test('new blogs can be added', async () => {
+    const newBlog = {
+        title: "jebbe jabbersonin elämä",
+        author: "jebbe",
+        url: "www.jebbe.jabbe",
+        likes: "2"
+    }
+
+    await api
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(201)
+        .expect('Content-Type', /application\/json/)
+
+    const response = await api.get('/api/blogs')
+    const titles = response.body.map(r => r.title)
+    expect(response.body).toHaveLength(initialBlogs.length + 1)
+    expect(titles).toContain(
+        'jebbe jabbersonin elämä'
+    )
+})
+
 afterAll(() => {
     mongoose.connection.close()
 })

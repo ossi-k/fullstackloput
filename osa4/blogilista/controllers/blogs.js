@@ -16,7 +16,6 @@ blogsRouter.get('/', async (request, response) => {
 })
 
 blogsRouter.post('/', (request, response) => {
-    console.log(request)
     //const blog = new Blog(request.body)
     const body = request.body
     const blog = new Blog({
@@ -25,7 +24,6 @@ blogsRouter.post('/', (request, response) => {
         url: body.url,
         likes: body.likes
     })
-    console.log(blog)
     blog
         .save()
         .then(result => {
