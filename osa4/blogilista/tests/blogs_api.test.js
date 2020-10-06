@@ -54,7 +54,7 @@ test('new blogs can be added', async () => {
     await api
         .post('/api/blogs')
         .send(newBlog)
-        .expect(201)
+        .expect(200)
         .expect('Content-Type', /application\/json/)
 
     const response = await api.get('/api/blogs')
@@ -63,6 +63,56 @@ test('new blogs can be added', async () => {
     expect(titles).toContain(
         'jebbe jabbersonin elämä'
     )
+})
+
+test('empty likes is assigned value zero (0)', async () => {
+    const newBlog = {
+        title: "no one likes me",
+        author: "jebbe",
+        url: "www.jebbe.jabbe",
+        likes: ""
+    }
+
+    await api
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(200)
+        .expect('Content-Type', /application\/json/)
+
+    const response = await api.get('/api/blogs')
+    expect(response.body).toHaveLength(initialBlogs.length + 1)
+    expect(response.body[2].likes) === 0
+})
+
+test('no blogs with empty url and title can be added', async () => {
+    const newBlog = {
+        title: "",
+        author: "jebbe",
+        url: "",
+        likes: "5"
+    }
+
+    const newBlogNoTitle = {
+        title: "",
+        author: "jebbe",
+        url: "www.jeemaali.y",
+        likes: "5"
+    }
+
+    
+    const newBlogNoTitleNoUrl = {
+        title: "yykaakoo",
+        author: "jebbe",
+        url: "",
+        likes: "5"
+    }
+
+    await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .send(newBlogNoTitle)
+    .send(newBlogNoTitleNoUrl)
+    .expect(400)
 })
 
 afterAll(() => {

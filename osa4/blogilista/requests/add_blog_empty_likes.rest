@@ -2,8 +2,8 @@ POST http://localhost:3001/api/blogs
 Content-Type: application/json
 
 {
-    "title": "tuleeko uusi VERSIO 1251?",
+    "title": "no likes",
     "author": "the snout",
     "url": "www.jeba.jeb",
-    "likes": "0"
+    "likes": ""
 }
