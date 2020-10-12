@@ -5,6 +5,7 @@ const app = require('../app')
 const { TestScheduler } = require('jest')
 const Blog = require('../models/blog')
 const blog = require('../models/blog')
+const User = require('../models/user')
 
 /* const initialBlogs = [
     {
@@ -29,6 +30,10 @@ beforeEach(async () => {
 
     blogObject = new Blog(helper.initialBlogs[1])
     await blogObject.save()
+
+    await User.deleteMany({})
+    const user = new User({ username: 'jebbe', password: 'passuwordu' })
+    await user.save()
 })
 
 const api = supertest(app)
@@ -37,7 +42,7 @@ test('returns the correct amount of blogs', async () => {
     const response = await api.get('/api/blogs')
 
     expect(response.body).toHaveLength(helper.initialBlogs.length)
-}) 
+})
 
 test('identification variable is named id', async () => {
     const response = await api.get('/api/blogs')
@@ -102,7 +107,7 @@ test('no blogs with empty url and title can be added', async () => {
         likes: "5"
     }
 
-    
+
     const newBlogNoTitleNoUrl = {
         title: "yykaakoo",
         author: "jebbe",
@@ -111,11 +116,11 @@ test('no blogs with empty url and title can be added', async () => {
     }
 
     await api
-    .post('/api/blogs')
-    .send(newBlog)
-    .send(newBlogNoTitle)
-    .send(newBlogNoTitleNoUrl)
-    .expect(400)
+        .post('/api/blogs')
+        .send(newBlog)
+        .send(newBlogNoTitle)
+        .send(newBlogNoTitleNoUrl)
+        .expect(400)
 })
 
 test('a blog can be deleted', async () => {
@@ -124,8 +129,8 @@ test('a blog can be deleted', async () => {
     const blogToDelete = blogsAtStart[0]
 
     await api
-    .delete(`/api/blogs/${blogToDelete.id}`)
-    .expect(204)
+        .delete(`/api/blogs/${blogToDelete.id}`)
+        .expect(204)
 
     const blogsAtEnd = await helper.blogsInDb()
 
@@ -137,6 +142,50 @@ test('a blog can be deleted', async () => {
 
     expect(titles).not.toContain(blogToDelete.title)
 })
+
+test('creation succeeds with a fresh username', async () => {
+    const userAtStart = await helper.usersInDb()
+
+    const newUser = {
+        username: 'tebster',
+        name: 'Tebbo Teboil',
+        password: 'thepassword'
+    }
+
+    await api
+        .post('/api/users')
+        .send(newUser)
+        .expect(200)
+        .expect('Content-Type', /application\/json/)
+
+    const usersAtEnd = await helper.usersInDb()
+    expect(usersAtEnd.length).toBe(userAtStart.length + 1)
+
+    const usernames = usersAtEnd.map(elUser => elUser.username)
+    expect(usernames).toContain(newUser.username)
+})
+
+/*test('creation fails with proper statuscode and message if username is already taken', async () => {
+    const userAtStart = await helper.usersInDb()
+
+    const newUser = {
+        username: 'jebbe',
+        name: 'theUser',
+        password: 'salaisuus'
+    }
+
+    const result = await api
+        .post('/api/users')
+        .send(newUser)
+        .expect(400)
+        .expect('Content-Type', /application\/json/)
+
+    expect(result.body.error).toContain('`username` to be unique')
+
+    const usersAtEnd = await helper.usersInDb()
+    expect(usersAtEnd.length).toBe(userAtStart.length)
+})*/
+
 
 afterAll(() => {
     mongoose.connection.close()
