@@ -52,11 +52,14 @@ test('identification variable is named id', async () => {
 })
 
 test('new blogs can be added', async () => {
+    const userAtStart = await helper.usersInDb()
     const newBlog = {
         title: "jebbe jabbersonin elämä",
         author: "jebbe",
         url: "www.jebbe.jabbe",
-        likes: "2"
+        likes: "2",
+        userid: userAtStart[0].id
+        
     }
 
     await api
@@ -74,11 +77,13 @@ test('new blogs can be added', async () => {
 })
 
 test('empty likes is assigned value zero (0)', async () => {
+    const userAtStart = await helper.usersInDb()
     const newBlog = {
         title: "no one likes me",
         author: "jebbe",
         url: "www.jebbe.jabbe",
-        likes: ""
+        likes: "",
+        userid: userAtStart[0].id
     }
 
     await api
@@ -93,18 +98,21 @@ test('empty likes is assigned value zero (0)', async () => {
 })
 
 test('no blogs with empty url and title can be added', async () => {
+    const userAtStart = await helper.usersInDb()
     const newBlog = {
         title: "",
         author: "jebbe",
         url: "",
-        likes: "5"
+        likes: "5",
+        userid: userAtStart[0].id
     }
 
     const newBlogNoTitle = {
         title: "",
         author: "jebbe",
         url: "www.jeemaali.y",
-        likes: "5"
+        likes: "5",
+        userid: userAtStart[0].id
     }
 
 
@@ -112,7 +120,8 @@ test('no blogs with empty url and title can be added', async () => {
         title: "yykaakoo",
         author: "jebbe",
         url: "",
-        likes: "5"
+        likes: "5",
+        userid: userAtStart[0].id
     }
 
     await api
