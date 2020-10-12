@@ -2,8 +2,9 @@ POST http://localhost:3001/api/blogs
 Content-Type: application/json
 
 {
-    "title": "tuleeko uusi VERSIO 1251?",
-    "author": "the snout",
+    "title": "elämää ilman ilmaa",
+    "author": "morroo",
     "url": "www.jeba.jeb",
-    "likes": "0"
+    "likes": "0",
+    "userid": "5f8480cec3034b2d48cb3e2d"
 }
