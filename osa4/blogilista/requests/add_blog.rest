@@ -1,8 +1,9 @@
 POST http://localhost:3001/api/blogs
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InR1cnBhc2F1bmEiLCJpZCI6IjVmODQ5MTZhOGIwMWQ5NmQzMDg3MjU2MCIsImlhdCI6MTYwMjU5NjEyOX0.cixdtOGT3rEchZhQKPfZUgovBYZfgzdZpFkHhLGh6Pk
 
 {
-    "title": "elämää ilman ilmaa",
+    "title": "nyt ei pitäs failaa",
     "author": "morroo",
     "url": "www.jeba.jeb",
     "likes": "0",
