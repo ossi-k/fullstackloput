@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import Notification from './components/Notification'
 import NewBlogMessage from './components/NewBlogMessage'
+import LoginForm from './components/LoginForm'
+import BlogForm from './components/BlogForm'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
@@ -16,6 +18,7 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
+  const [newBlogVisible, setnewBlogVisible] = useState(false)
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -54,7 +57,7 @@ const App = () => {
           setNewTitle('')
           setNewUrl('')
 
-          setnewBlogMessage('new blog ' + title + ' by ' + author + ' was added' )
+          setnewBlogMessage('new blog ' + title + ' by ' + author + ' was added')
           setTimeout(() => {
             setnewBlogMessage(null)
           }, 5000)
@@ -98,86 +101,26 @@ const App = () => {
   }
 
 
-
-  const handleTitleChange = async (event) => {
-    setNewTitle(event.target.value)
-  }
-
-  const handleAuthorChange = async (event) => {
-    setNewAuthor(event.target.value)
-  }
-
-  const handleUrlChange = async (event) => {
-    setNewUrl(event.target.value)
-  }
-
-  const loginForm = () => (
-    <form onSubmit={handleLogin}>
-      <div>
-        <h2>Login</h2>
-        username
-          <input
-          type="text"
-          value={username}
-          name="Username"
-          onChange={({ target }) => setUsername(target.value)}
+    const loginForm = () => (
+        <LoginForm
+          username={username}
+          password={password}
+          handleUsernameChange={({ target }) => setUsername(target.value)}
+          handlePasswordChange={({ target }) => setPassword(target.value)}
+          handleSubmit={handleLogin}
         />
-      </div>
-      <div>
-        password
-          <input
-          type="password"
-          value={password}
-          name="Password"
-          onChange={({ target }) => setPassword(target.value)}
-        />
-      </div>
-      <button type="submit">login</button>
-    </form>
-  )
-
-  /*   const logoutButton = () => (
-      <div>
-        <button onClick={handleLogut}>logout</button>
-      </div>
     )
-   */
+
   const blogForm = () => (
-    <form onSubmit={addBlog}>
-      <div>
-        title
-          <input
-          type="text"
-          value={title}
-          name="Title"
-          //onChange={({ target }) => setNewTitle(target.value)}
-          onChange={handleTitleChange}
-        />
-      </div>
-
-      <div>
-        author
-          <input
-          type="text"
-          value={author}
-          name="Author"
-          //onChange={({ target }) => setNewAuthor(target.value)}
-          onChange={handleAuthorChange}
-        />
-      </div>
-
-      <div>
-        url
-          <input
-          type="text"
-          value={url}
-          name="URL"
-          //onChange={({ target }) => setNewUrl(target.value)}
-          onChange={handleUrlChange}
-        />
-      </div>
-      <button type="submit">save</button>
-    </form>
+    <BlogForm
+      onSubmit = {addBlog}
+      title = {title}
+      author = {author}
+      url = {url}
+      handleTitleChange = {({ target }) => setNewTitle(target.value)}
+      handleAuthorChange = {({ target }) => setNewAuthor(target.value)}
+      handleUrlChange = {({ target }) => setNewUrl(target.value)}
+    />
   )
 
 
@@ -185,19 +128,22 @@ const App = () => {
     <div>
       <h2>blogs</h2>
       <Notification message={errorMessage} />
-      
+
 
       {user === null ?
         loginForm() :
 
         <div>
           <p>{user.name} logged in</p>
-          <NewBlogMessage message = {newBlogMessage} />
+          <NewBlogMessage message={newBlogMessage} />
           {blogForm()}
+
           <p><button onClick={handleLogut}>logout</button></p>
+
           {blogs.map(blog =>
             <Blog key={blog.id} blog={blog} />
           )}
+
         </div>
       }
     </div>
