@@ -6,6 +6,7 @@ import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import Togglable from './components/Togglable'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -101,26 +102,28 @@ const App = () => {
   }
 
 
-    const loginForm = () => (
-        <LoginForm
-          username={username}
-          password={password}
-          handleUsernameChange={({ target }) => setUsername(target.value)}
-          handlePasswordChange={({ target }) => setPassword(target.value)}
-          handleSubmit={handleLogin}
-        />
-    )
+  const loginForm = () => (
+    <LoginForm
+      username={username}
+      password={password}
+      handleUsernameChange={({ target }) => setUsername(target.value)}
+      handlePasswordChange={({ target }) => setPassword(target.value)}
+      handleSubmit={handleLogin}
+    />
+  )
 
   const blogForm = () => (
-    <BlogForm
-      onSubmit = {addBlog}
-      title = {title}
-      author = {author}
-      url = {url}
-      handleTitleChange = {({ target }) => setNewTitle(target.value)}
-      handleAuthorChange = {({ target }) => setNewAuthor(target.value)}
-      handleUrlChange = {({ target }) => setNewUrl(target.value)}
-    />
+    <Togglable buttonLabel="new blog">
+      <BlogForm
+        onSubmit={addBlog}
+        title={title}
+        author={author}
+        url={url}
+        handleTitleChange={({ target }) => setNewTitle(target.value)}
+        handleAuthorChange={({ target }) => setNewAuthor(target.value)}
+        handleUrlChange={({ target }) => setNewUrl(target.value)}
+      />
+    </Togglable>
   )
 
 
