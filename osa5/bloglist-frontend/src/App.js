@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Blog from './components/Blog'
+import Notification from './components/Notification'
+import NewBlogMessage from './components/NewBlogMessage'
 import blogService from './services/blogs'
 import loginService from './services/login'
 
@@ -10,6 +12,7 @@ const App = () => {
   const [author, setNewAuthor] = useState('')
   const [url, setNewUrl] = useState('')
   const [errorMessage, setErrorMessage] = useState(null)
+  const [newBlogMessage, setnewBlogMessage] = useState(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
@@ -29,33 +32,10 @@ const App = () => {
     }
   }, [])
 
-/*   const addBlog = async (event) => {
-    event.preventDefault()
-    blogService.setToken(user.token)
-
-    const blogObject = {
-      title: title[0].title,
-      author: author[0].author
-    }
-    console.log("title: " + title)
-    console.log("author: " + author)
-    console.log("url: " + url)
-    //console.log("likes: " + likes)
-
-
-    await blogService
-      .create({blogObject})
-      .then(returnedBlog => {
-        setBlogs(blogs.concat(returnedBlog))
-        setNewAuthor('')
-        setNewBlog('')
-        setNewUrl('')
-      })
-  } */
 
   const addBlog = async (event) => {
     event.preventDefault()
-    
+
     const BlogObject = {
       title: title,
       author: author,
@@ -65,21 +45,26 @@ const App = () => {
     console.log("title: " + title)
     console.log("author: " + author)
     console.log("url: " + url)
- 
+
     try {
-      blogService.create (BlogObject)
+      blogService.create(BlogObject)
         .then(returnedBlog => {
           setBlogs(blogs.concat(returnedBlog))
           setNewAuthor('')
           setNewTitle('')
-          setNewUrl('')     
+          setNewUrl('')
+
+          setnewBlogMessage('new blog ' + title + ' by ' + author + ' was added' )
+          setTimeout(() => {
+            setnewBlogMessage(null)
+          }, 5000)
         })
 
     } catch (exception) {
-      setErrorMessage('can not create blog')
+      setErrorMessage('new blog was not created')
       setTimeout(() => {
         setErrorMessage(null)
-      }, 2000)
+      }, 5000)
     }
   }
 
@@ -103,7 +88,6 @@ const App = () => {
         setErrorMessage(null)
       }, 5000)
     }
-    //console.log('logging in with', username, password)
   }
 
   const handleLogut = async (event) => {
@@ -200,11 +184,15 @@ const App = () => {
   return (
     <div>
       <h2>blogs</h2>
+      <Notification message={errorMessage} />
+      
+
       {user === null ?
         loginForm() :
 
         <div>
           <p>{user.name} logged in</p>
+          <NewBlogMessage message = {newBlogMessage} />
           {blogForm()}
           <p><button onClick={handleLogut}>logout</button></p>
           {blogs.map(blog =>
