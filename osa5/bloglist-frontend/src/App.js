@@ -126,6 +126,22 @@ const App = () => {
     </Togglable>
   )
 
+  const addLikeOf = (id) => {
+    const blog = blogs.find(blog => blog.id === id)
+    console.log("blogi " + blog)
+    console.log("blogin likes: " + blog.likes)
+    const changedBlog = { ...blog, likes: blog.likes + 1 }
+    console.log("blogin likes napin painalluksen jälkeen: " + changedBlog.likes)
+
+    blogService
+      .update(id, changedBlog)
+      .then(returnedBlog => {
+        setBlogs(blogs.map(blog => blog.id !== id ? blog : returnedBlog))
+      })
+    setTimeout(() => {
+      setErrorMessage(null)
+    }, 5000)
+  }
 
   return (
     <div>
@@ -142,10 +158,17 @@ const App = () => {
           {blogForm()}
 
           <p><button onClick={handleLogut}>logout</button></p>
-
-          {blogs.map(blog =>
-            <Blog key={blog.id} blog={blog} />
-          )}
+          <ul>
+            {blogs.map(blog =>
+              //<Togglable buttonLabel="view">
+                <Blog
+                  key={blog.id}
+                  blog={blog}
+                  addLike={() => addLikeOf(blog.id)}
+                />
+              //</Togglable>
+            )}
+          </ul>
 
         </div>
       }
