@@ -1,7 +1,7 @@
 import React from 'react'
 import Togglable from './Togglable'
 
-const Blog = ({ blog, addLike }) => {
+const Blog = ({ blog, addLike, removeBlog }) => {
 
   return (
     <li className='blog'>
@@ -15,6 +15,7 @@ const Blog = ({ blog, addLike }) => {
       <a> likes: {blog.likes} </a>
       <br/>
       <button onClick={addLike}>like</button>
+      <button onClick={removeBlog}>remove</button>
       </Togglable>
     </li>)
 }

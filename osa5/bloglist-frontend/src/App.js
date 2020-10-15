@@ -143,6 +143,18 @@ const App = () => {
     }, 5000)
   }
 
+  const removeBlog = (id) => {
+    const blog = blogs.find(blog => blog.id === id)
+    if(window.confirm("Delete " + blog.title + "?"))
+    blogService
+      .remove(id)
+      .then(setBlogs(blogs.filter(blog => blog.id !== id)))
+    setTimeout(() => {
+      setErrorMessage(null)
+    }, 5000)
+  }
+
+
   return (
     <div>
       <h2>blogs</h2>
@@ -160,13 +172,12 @@ const App = () => {
           <p><button onClick={handleLogut}>logout</button></p>
           <ul>
             {blogs.map(blog =>
-              //<Togglable buttonLabel="view">
-                <Blog
-                  key={blog.id}
-                  blog={blog}
-                  addLike={() => addLikeOf(blog.id)}
-                />
-              //</Togglable>
+              <Blog
+                key={blog.id}
+                blog={blog}
+                addLike={() => addLikeOf(blog.id)}
+                removeBlog = {() => removeBlog(blog.id)}
+              />
             )}
           </ul>
 
