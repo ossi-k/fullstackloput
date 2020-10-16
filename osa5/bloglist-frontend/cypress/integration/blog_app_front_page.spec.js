@@ -1,5 +1,5 @@
-describe('Blog app', function() {
-  beforeEach(function() {
+describe('Blog app', function () {
+  beforeEach(function () {
     cy.request('POST', 'http://localhost:3001/api/testing/reset')
     const user = {
       name: 'Testaaja',
@@ -9,17 +9,17 @@ describe('Blog app', function() {
     cy.request('POST', 'http://localhost:3001/api/users/', user)
     cy.visit('http://localhost:3000')
   })
-  
-    it('Login from is shown', function() {
-        cy.contains('blogs')
-        cy.contains('Login')
-        cy.contains('username')
-        cy.contains('password')
-        //cy.contains('login').click()
-    })
 
-   describe('Login',function() {
-    it('succeeds with correct credentials', function() {
+  it('Login from is shown', function () {
+    cy.contains('blogs')
+    cy.contains('Login')
+    cy.contains('username')
+    cy.contains('password')
+    //cy.contains('login').click()
+  })
+
+  describe('Login', function () {
+    it('succeeds with correct credentials', function () {
       cy.get('#username').type('testaaja')
       cy.get('#password').type('salasana')
       cy.get('#login-button').click()
@@ -27,12 +27,33 @@ describe('Blog app', function() {
       cy.contains('Testaaja logged in')
     })
 
-    it('fails with wrong credentials', function() {
+    it('fails with wrong credentials', function () {
       cy.get('#username').type('väärä')
       cy.get('#password').type('salasana')
       cy.get('#login-button').click()
 
       cy.contains('wrong credentials')
     })
-  }) 
+  })
+
+  describe.only('When logged in', function () {
+    beforeEach(function () {
+      cy.get('#username').type('testaaja')
+      cy.get('#password').type('salasana')
+      cy.get('#login-button').click()
+    })
+
+    it('A blog can be created', function () {
+      cy.get('#visibility-button').click()
+      cy.get('#title-field').type('testiblogi')
+      cy.get('#author-field').type('testibotti')
+      cy.get('#url-field').type('testi.testi')
+      cy.get('#blog-submit-button').click()
+
+      cy.contains('new blog testiblogi by testibotti was added')
+      cy.contains('title: testiblogi')
+      cy.contains('author: testibotti')
+      cy.contains('view').click()
+    })
+  })
 })
