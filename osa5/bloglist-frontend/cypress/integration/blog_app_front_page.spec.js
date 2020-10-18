@@ -7,6 +7,7 @@ describe('Blog app', function () {
       password: 'salasana'
     }
     cy.request('POST', 'http://localhost:3001/api/users/', user)
+
     cy.visit('http://localhost:3000')
   })
 
@@ -54,6 +55,42 @@ describe('Blog app', function () {
       cy.contains('title: testiblogi')
       cy.contains('author: testibotti')
       cy.contains('view').click()
+    })
+
+/*     it('A blog can be liked', function () {
+      cy.get('#visibility-button').click()
+      cy.get('#title-field').type('testiblogi')
+      cy.get('#author-field').type('testibotti')
+      cy.get('#url-field').type('testi.testi')
+      cy.get('#blog-submit-button').click()
+
+      cy.contains('new blog testiblogi by testibotti was added')
+      cy.contains('title: testiblogi')
+      cy.contains('author: testibotti')
+
+      cy.get('#logout-button').click()
+      cy.get('#username').type('testaaja')
+      cy.get('#password').type('salasana')
+      cy.get('#login-button').click()
+      cy.contains('view').click()
+      cy.get('#like-blog-button').click()
+      cy.contains('likes: 1')
+    }) */
+
+    it('A blog can be deleted', function () {
+
+
+      cy.get('#visibility-button').click()
+      cy.get('#title-field').type('testiblogi')
+      cy.get('#author-field').type('testibotti')
+      cy.get('#url-field').type('testi.testi')
+      cy.get('#blog-submit-button').click()
+
+      cy.contains('view').click()
+      cy.get('#remove-blog-button').click()
+
+      cy.contains('title: testiblogi').should('not.exist')
+      cy.contains('author: testibotti').should('not.exist')
     })
   })
 })

@@ -128,10 +128,7 @@ const App = () => {
 
   const addLikeOf = (id) => {
     const blog = blogs.find(blog => blog.id === id)
-    console.log("blogi " + blog)
-    console.log("blogin likes: " + blog.likes)
     const changedBlog = { ...blog, likes: blog.likes + 1 }
-    console.log("blogin likes napin painalluksen jälkeen: " + changedBlog.likes)
 
     blogService
       .update(id, changedBlog)
@@ -169,7 +166,7 @@ const App = () => {
           <NewBlogMessage message={newBlogMessage} />
           {blogForm()}
 
-          <p><button onClick={handleLogut}>logout</button></p>
+          <p><button id = 'logout-button' onClick={handleLogut}>logout</button></p>
           <ul>
             {blogs.map(blog =>
               <Blog
