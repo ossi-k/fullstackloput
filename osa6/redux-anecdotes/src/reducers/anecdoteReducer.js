@@ -23,15 +23,36 @@ const reducer = (state = initialState, action) => {
   console.log('state now: ', state)
   console.log('action', action)
 
-  switch(action.type) {
+  switch (action.type) {
     case 'VOTE':
       const anecdote = state.find(anecdote => anecdote.id === action.data.id)
-      const voteAnecdote = {...anecdote, votes: anecdote.votes + 1}
-      return state.map(anecdote => anecdote.id !== action.data.id ? anecdote:voteAnecdote)
+      const voteAnecdote = { ...anecdote, votes: anecdote.votes + 1 }
+      return state.map(anecdote => anecdote.id !== action.data.id ? anecdote : voteAnecdote)
+    case 'NEW_ANECDOTE':
+      return [...state, action.data]
   }
-
   return state
 }
 
+const generateId = () =>
+  Number((Math.random() * 1000000).toFixed(0))
 
+export const vote = (id) => {
+  return {
+    type: 'VOTE',
+    data: {id}
+  }
+}
+
+export const createAnecdote = (content) => {
+  console.log("content: " + content)
+  return {
+    type: 'NEW_ANECDOTE',
+    data: {
+      content,
+      votes: 0,
+      id: generateId()
+    }
+  }
+}
 export default reducer
