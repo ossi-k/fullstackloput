@@ -7,7 +7,7 @@ const Anecdote = ({ anecdote, handleClick}) => {
     return(
         <li onClick={handleClick}>
             {anecdote.content}
-            has {anecdote.votes}
+            has {anecdote.votes} votes
             <button onClick={() => vote(anecdote.id)}>vote</button>
         </li>
     )
