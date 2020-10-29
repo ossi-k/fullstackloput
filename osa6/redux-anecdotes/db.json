@@ -1,5 +1,5 @@
 {
-  "anecdotes":[
+  "anecdotes": [
     {
       "content": "If it hurts, do it more often",
       "id": "47145",
@@ -34,6 +34,68 @@
       "content": "Does this render?",
       "id": "51295",
       "votes": 0
+    },
+    {
+      "content": "Täältä lisäillään backendiin?",
+      "votes": 0,
+      "id": "Ce2YBTQ"
+    },
+    {
+      "content": "lisätäänkö?",
+      "id": "VBOPKpD"
+    },
+    {
+      "content": "gsdgsdg",
+      "id": "HKD-HRe"
+    },
+    {
+      "content": "gtjrtjfg",
+      "id": "YNZrHI7"
+    },
+    {
+      "content": "ilmeisesti tulee?",
+      "votes": 0,
+      "id": "3WJ3PJb"
+    },
+    {
+      "content": "vielä yksi",
+      "votes": 0,
+      "id": "1zAZ19N"
+    },
+    {
+      "content": "muutos?",
+      "votes": 0,
+      "id": "m4mrzos"
+    },
+    {
+      "content": "tuleeko error?",
+      "votes": 0,
+      "id": "IhSgwLM"
+    },
+    {
+      "content": "testailua",
+      "votes": 0,
+      "id": "wKrmPoq"
+    },
+    {
+      "content": "entäs nyt",
+      "votes": 0,
+      "id": "KxBlNmU"
+    },
+    {
+      "content": "no mitää",
+      "votes": 0,
+      "id": "CcEPzdL"
+    },
+    {
+      "content": "jeabjee",
+      "votes": 0,
+      "id": "FKYpO2i"
+    },
+    {
+      "content": "gherhbedrh",
+      "votes": 0,
+      "id": "oP5bcuv"
     }
   ]
 }
