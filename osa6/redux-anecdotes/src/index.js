@@ -1,21 +1,20 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { createStore } from 'redux'
-import { composeWithDevTools } from 'redux-devtools-extension'
 import { Provider } from 'react-redux'
 import App from './App'
-import reducer from './reducers/anecdoteReducer'
 import store from './components/Store'
+/*import { initialAnecdotes } from './reducers/anecdoteReducer'
+import anecdotes from './services/anecdotes'
+import anecdoteService from './services/anecdotes'*/
 
-/* const store = createStore(
-  reducer,
-  composeWithDevTools()
-  )
- */
+
+/*anecdoteService.getAll().then(anecdotes =>
+  store.dispatch(initialAnecdotes(anecdotes))
+)*/
 
 ReactDOM.render(
-<Provider store={store}>
+  <Provider store={store}>
     <App />
-  </Provider>, 
+  </Provider>,
   document.getElementById('root')
 )
